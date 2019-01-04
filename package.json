@@ -1,0 +1,14 @@
+{
+  "name": "Norwegian-Airlines",
+  "version": "1.0.0",
+  "description": "Norwegian Airline Price Analysis in Excel",
+  "main": "Norwegian.js",
+  "private": true,
+  "scripts": {
+    "start": "node Norwegian.js"
+  },
+  "author": "Andrey Svetlichny",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
