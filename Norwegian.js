@@ -2,17 +2,20 @@
 // Usage: run node Norwegian.js, then open outbound.csv and inbound.csv in Excel
 const fs = require('fs'), https = require('https'), querystring = require('querystring');
 
-const outboundDate = '2018-12-01';
-const inboundDate = '2018-12-01';
+const outboundDate = '2019-08-01';
+const inboundDate = '2019-08-01';
 const originAirportCode = 'SVG'; // Stavanger
+const currencyCode = 'NOK';  // 'NOK', 'EUR', ..
 
 getRelatedPrices(originAirportCode.toLowerCase(), data => {
 	let outbound = fs.createWriteStream('outbound.csv');
+	outbound.write('sep=;\n');
 	outbound.write('; ' + data.outbound.dates.map(o => o.substr(0, 10)).join('; '));
 	for(let row of data.outbound.prices.sort(compareAirport)) {
 		outbound.write('\n' + row.airport.airportName + '; ' + row.price.map(formatPrice).join('; '));
 	}	
 	let inbound = fs.createWriteStream('inbound.csv');
+	inbound.write('sep=;\n');
 	inbound.write('; ' + data.inbound.dates.map(o => o.substr(0, 10)).join('; '));
 	for(let row of data.inbound.prices.sort(compareAirport)) {
 		inbound.write('\n' + row.airport.airportName + '; ' + row.price.map(formatPrice).join('; '));
@@ -71,7 +74,7 @@ function getCalendar(destinationAirportCode, callback) {
 			outboundDate: outboundDate,
 			inboundDate: inboundDate,
 			tripType: 2, // Round
-			currencyCode: 'EUR',
+			currencyCode: currencyCode,
 			languageCode: 'en-GB'
 		}), content => {
 		const data = JSON.parse(content);
